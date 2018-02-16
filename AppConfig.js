@@ -1,3 +1,3 @@
 export default config = {
-    endpoint: "https://www.screener.in/api/"
+    endpoint: "https://www.screener.in/api"
 }

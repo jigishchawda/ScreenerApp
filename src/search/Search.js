@@ -8,7 +8,8 @@ import {
     View,
     TextInput,
     Button,
-    FlatList
+    FlatList,
+    TouchableWithoutFeedback
 } from 'react-native';
 import styles from './SearchStyles'
 
@@ -21,6 +22,7 @@ export default class Search extends Component {
 
         this.searchQuery = this.searchQuery.bind(this)
         this.searchTextChanged = this.searchTextChanged.bind(this)
+        this.renderQueryResultItem = this.renderQueryResultItem.bind(this)
     }
 
     searchTextChanged(query) {
@@ -33,38 +35,42 @@ export default class Search extends Component {
 
     renderQueryResultItem({ item, index }) {
         return (
-            <View key={index}
-                style={styles.queryResultItemContainer}>
-                <Text style={styles.queryResultItemText}>{item.name}</Text>
-                <Text style={styles.queryResultItemText}> > </Text>
-            </View>
+            <TouchableWithoutFeedback
+                onPress={()=> this.props.searchCompanyByUrl(item.url)}
+            >
+                <View key={index}
+                    style={styles.queryResultItemContainer}>
+                    <Text style={styles.queryResultItemText}>{item.name}</Text>
+                    <Text style={styles.queryResultItemText}> > </Text>
+                </View>
+            </TouchableWithoutFeedback>
         )
     }
 
     render() {
         return (
             <View>
-                    <View style={styles.searchTextContainer}>
-                        <TextInput
-                            placeholder={'Search Company'}
-                            onChangeText={this.searchTextChanged}
-                            value={this.state.query}
-                            style={styles.searchTextInput}
-                        />
-                        <Button
-                            style={styles.searchButton}
-                            title={'Search'}
-                            onPress={this.searchQuery}
-                        />
-                    </View>
-                    <FlatList
-                        data={this.props.queryResult}
-                        renderItem={this.renderQueryResultItem}
-                        keyExtractor={(item, index) => '' + item.id}
-                        ItemSeparatorComponent={() => <View style={styles.separator}/>}
+                <View style={styles.searchTextContainer}>
+                    <TextInput
+                        placeholder={'Search Company'}
+                        onChangeText={this.searchTextChanged}
+                        value={this.state.query}
+                        style={styles.searchTextInput}
+                    />
+                    <Button
+                        style={styles.searchButton}
+                        title={'Search'}
+                        onPress={this.searchQuery}
                     />
                 </View>
-                )
+                <FlatList
+                    data={this.props.queryResult}
+                    renderItem={this.renderQueryResultItem}
+                    keyExtractor={(item, index) => '' + item.id}
+                    ItemSeparatorComponent={() => <View style={styles.separator} />}
+                />
+            </View>
+        )
     }
 }
 

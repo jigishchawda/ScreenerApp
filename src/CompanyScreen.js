@@ -8,13 +8,35 @@ import {
     View
 } from 'react-native';
 import Company from './company/Company'
+import {connect} from 'react-redux'
 
 
-export default class CompanyScreen extends Component {
+class CompanyScreen extends Component {
+    static navigationOptions = {
+        title: 'Company details'
+    }
     render() {
         return (
-            <Company />
+            <Company 
+                companyResult={this.props.companyResult}
+            />
         )
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        companyResult: state.search.companyResult,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CompanyScreen)
