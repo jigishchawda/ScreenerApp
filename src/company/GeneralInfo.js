@@ -8,7 +8,7 @@ export default class GeneralInfo extends Component {
     render() {
         return (
             <View>
-                <Text>General Info</Text>
+                <Text>{this.props.screenProps.companyResult.name}</Text>
             </View>
         )
     }

@@ -23,28 +23,31 @@ const UpDownIcon = <MaterialIcon name='thumbs-up-down' size={25} color='orange' 
 
 
 export default TabNavigator(
-  {
-    General: { screen: GeneralInfo },
-    ProCon: { screen: ProCon },
-  },
-  {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === 'General') {
-          return InfoIcon
-        } else if (routeName === 'ProCon') {
-          return UpDownIcon
-        }
-      },
-    }),
-    tabBarOptions: {
-      activeTintColor: 'tomato',
-      inactiveTintColor: 'gray',
+    {
+        General: { screen: GeneralInfo },
+        ProCon: { screen: ProCon },
     },
-    tabBarComponent: TabBarBottom,
-    tabBarPosition: 'bottom',
-    animationEnabled: false,
-    swipeEnabled: false,
-  })
+    {
+        navigationOptions: ({ navigation }) => {
+            navigation.setParams({ companyResult: this.props.companyResult })
+            return {
+                tabBarIcon: ({ focused, tintColor }) => {
+                    const { routeName } = navigation.state;
+                    let iconName;
+                    if (routeName === 'General') {
+                        return InfoIcon
+                    } else if (routeName === 'ProCon') {
+                        return UpDownIcon
+                    }
+                },
+            }
+        },
+        tabBarOptions: {
+            activeTintColor: 'tomato',
+            inactiveTintColor: 'gray',
+        },
+        tabBarComponent: TabBarBottom,
+        tabBarPosition: 'bottom',
+        animationEnabled: false,
+        swipeEnabled: false,
+    })

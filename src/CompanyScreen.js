@@ -8,18 +8,55 @@ import {
     View
 } from 'react-native';
 import Company from './company/Company'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+import { TabNavigator, TabBarBottom } from 'react-navigation'
+import GeneralInfo from './company/GeneralInfo'
+import ProCon from './company/ProCon'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+const InfoIcon = <MaterialIcon name='info' size={25} color='orange' />
+const UpDownIcon = <MaterialIcon name='thumbs-up-down' size={25} color='orange' />
+
+
+const CompanyNavigator = TabNavigator(
+    {
+        General: { screen: GeneralInfo },
+        ProCon: { screen: ProCon },
+    },
+    {
+        navigationOptions: ({ navigation }) => {
+            return {
+                tabBarIcon: ({ focused, tintColor }) => {
+                    const { routeName } = navigation.state;
+                    let iconName;
+                    if (routeName === 'General') {
+                        return InfoIcon
+                    } else if (routeName === 'ProCon') {
+                        return UpDownIcon
+                    }
+                },
+            }
+        },
+        tabBarOptions: {
+            activeTintColor: 'tomato',
+            inactiveTintColor: 'gray',
+        },
+        tabBarComponent: TabBarBottom,
+        tabBarPosition: 'bottom',
+        animationEnabled: false,
+        swipeEnabled: false,
+    })
 
 class CompanyScreen extends Component {
     static navigationOptions = {
         title: 'Company details'
     }
+
     render() {
         return (
-            <Company 
-                companyResult={this.props.companyResult}
-            />
+            <CompanyNavigator screenProps={{ ...this.props }} />
         )
     }
 }
@@ -31,9 +68,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        
-    }
+    return {}
 }
 
 export default connect(

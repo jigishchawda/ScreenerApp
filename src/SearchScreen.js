@@ -22,7 +22,6 @@ class SearchScreen extends Component {
     }
 
     searchCompanyByUrl(url) {
-        console.log(this.props)
         this.props.navigation.navigate('Company')
         this.props.searchCompanyByUrl(url)
     }
