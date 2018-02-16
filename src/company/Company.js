@@ -12,9 +12,15 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 // import styles from './CompanyStyles'
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator, TabBarBottom } from 'react-navigation'
 import GeneralInfo from './GeneralInfo'
 import ProCon from './ProCon'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+const InfoIcon = <MaterialIcon name='info' size={25} color='orange' />
+const UpDownIcon = <MaterialIcon name='thumbs-up-down' size={25} color='orange' />
+
 
 export default TabNavigator(
   {
@@ -26,15 +32,11 @@ export default TabNavigator(
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
-        if (routeName === 'Home') {
-          iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Settings') {
-          iconName = `ios-options${focused ? '' : '-outline'}`;
+        if (routeName === 'General') {
+          return InfoIcon
+        } else if (routeName === 'ProCon') {
+          return UpDownIcon
         }
-
-        // You can return any component that you like here! We usually use an
-        // icon component from react-native-vector-icons
-        return <Ionicons name={iconName} size={25} color={tintColor} />;
       },
     }),
     tabBarOptions: {
