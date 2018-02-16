@@ -7,7 +7,6 @@ import {
     Text,
     View
 } from 'react-native';
-import Company from './company/Company'
 import { connect } from 'react-redux'
 
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
