@@ -5,26 +5,13 @@ import {
     Linking,
     ScrollView
 } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import ProCon from './procon/ProCon'
 
-const ThumbUp = <Icon name='thumb-up' size={18} color={'#bce8f1'} />
-const ThumbDown = <Icon name='thumb-down' size={18} color={'#fcebcc'} />
 export default class GeneralInfo extends Component {
     constructor(props) {
         super(props)
-        this.renderProConItems = this.renderProConItems.bind(this)
     }
-    renderProConItems(items) {
-        return items.map(item => {
-            return (
-                <Text key={item}
-                    style={{ paddingTop: 8 }}
-                >
-                    {item}
-                </Text>
-            )
-        })
-    }
+    
 
     render() {
         let info = this.props.screenProps.companyResult
@@ -98,16 +85,7 @@ export default class GeneralInfo extends Component {
                 </View>
 
 
-                <View style={{ flexDirection: 'row', marginTop: 16 }}>
-                    <View style={{ flex: 1, borderColor: '#bce8f1', borderWidth: 1, backgroundColor: '#f4f8fa', padding: 8 }}>
-                        {ThumbUp}
-                        {this.renderProConItems(info.warehouse_set.analysis.good)}
-                    </View>
-                    <View style={{ flex: 1, borderColor: '#faebcc', borderWidth: 1, backgroundColor: '#faf8f0', padding: 8 }}>
-                        {ThumbDown}
-                        {this.renderProConItems(info.warehouse_set.analysis.bad)}
-                    </View>
-                </View>
+                <ProCon good={info.warehouse_set.analysis.good} bad={info.warehouse_set.analysis.bad}/>
             </ScrollView>
         )
     }
