@@ -10,13 +10,14 @@ import {
 import { connect } from 'react-redux'
 
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { TabNavigator, TabBarBottom } from 'react-navigation'
 import GeneralInfo from './company/generalInfo/GeneralInfo'
 import Financials from './company/financials/Financials'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const InfoIcon = <MaterialIcon name='info' size={25} color='orange' />
-const UpDownIcon = <MaterialIcon name='thumbs-up-down' size={25} color='orange' />
+const INR = <MaterialCommunityIcon name='currency-inr' size={25} color='orange' />
 
 
 const CompanyNavigator = TabNavigator(
@@ -33,7 +34,7 @@ const CompanyNavigator = TabNavigator(
                     if (routeName === 'General') {
                         return InfoIcon
                     } else if (routeName === 'Financials') {
-                        return UpDownIcon
+                        return INR
                     }
                 },
             }
