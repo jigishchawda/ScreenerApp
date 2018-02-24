@@ -11,8 +11,8 @@ import { connect } from 'react-redux'
 
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator, TabBarBottom } from 'react-navigation'
-import GeneralInfo from './company/GeneralInfo'
-import Financials from './company/Financials'
+import GeneralInfo from './company/generalInfo/GeneralInfo'
+import Financials from './company/financials/Financials'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const InfoIcon = <MaterialIcon name='info' size={25} color='orange' />
