@@ -18,12 +18,12 @@ export default class Financials extends Component {
         this.state = {
             currentSelector: selectors.QUARTERLY_RESULTS
         }
-   
+
         this.onSelectorSelected = this.onSelectorSelected.bind(this)
         this.renderSelectors = this.renderSelectors.bind(this)
-   
+
         this.renderLoadingInfo = this.renderLoadingInfo.bind(this)
-        
+
         this.renderFinancialsFor = this.renderFinancialsFor.bind(this)
         this.calculateDateRowsForFinancialData = this.calculateDateRowsForFinancialData.bind(this)
         this.renderDateRows = this.renderDateRows.bind(this)
@@ -171,8 +171,8 @@ export default class Financials extends Component {
             </Text>
         )
     }
-    
-    
+
+
     render() {
         let info = this.props.screenProps.companyResult
 
@@ -180,19 +180,21 @@ export default class Financials extends Component {
             return this.renderLoadingInfo()
         }
         return (
-            <View>
-                {this.renderSelectors()}
+            <ScrollView>
+                <View>
+                    {this.renderSelectors()}
 
-                {this.state.currentSelector === selectors.CASH_FLOW &&
-                    this.renderFinancialsFor(info.number_set.cashflow)}
-                {this.state.currentSelector === selectors.BALANCE_SHEET &&
-                    this.renderFinancialsFor(info.number_set.balancesheet)}
-                {this.state.currentSelector === selectors.ANNUAL_RESULTS &&
-                    this.renderFinancialsFor(info.number_set.annual)}
-                {this.state.currentSelector === selectors.QUARTERLY_RESULTS &&
-                    this.renderFinancialsFor(info.number_set.quarters)}
+                    {this.state.currentSelector === selectors.CASH_FLOW &&
+                        this.renderFinancialsFor(info.number_set.cashflow)}
+                    {this.state.currentSelector === selectors.BALANCE_SHEET &&
+                        this.renderFinancialsFor(info.number_set.balancesheet)}
+                    {this.state.currentSelector === selectors.ANNUAL_RESULTS &&
+                        this.renderFinancialsFor(info.number_set.annual)}
+                    {this.state.currentSelector === selectors.QUARTERLY_RESULTS &&
+                        this.renderFinancialsFor(info.number_set.quarters)}
 
-            </View>
+                </View>
+            </ScrollView>
         )
     }
 }
