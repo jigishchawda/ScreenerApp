@@ -4,19 +4,41 @@ import {
     View,
     ScrollView
 } from 'react-native'
+import styles from './FinancialsStyles'
 
+const selectors = {
+    CASH_FLOW: 'Cash Flow',
+    BALANCE_SHEET: 'Balance Sheet',
+    ANNUAL_RESULTS: 'Annual Results',
+    QUARTERLY_RESULTS: 'Quarterly Results'
+}
 export default class Financials extends Component {
     constructor(props) {
         super(props)
-
-        this.calculateDateRowsForCashflow = this.calculateDateRowsForCashflow.bind(this)
-        this.renderCashflowDateRows = this.renderCashflowDateRows.bind(this)
-        this.renderCashflowData = this.renderCashflowData.bind(this)
+        this.state = {
+            currentSelector: selectors.QUARTERLY_RESULTS
+        }
+   
+        this.onSelectorSelected = this.onSelectorSelected.bind(this)
+        this.renderSelectors = this.renderSelectors.bind(this)
+   
+        this.renderLoadingInfo = this.renderLoadingInfo.bind(this)
+        
+        this.renderFinancialsFor = this.renderFinancialsFor.bind(this)
+        this.calculateDateRowsForFinancialData = this.calculateDateRowsForFinancialData.bind(this)
+        this.renderDateRows = this.renderDateRows.bind(this)
+        this.renderFinancialData = this.renderFinancialData.bind(this)
+        this.renderColumnData = this.renderColumnData.bind(this)
     }
 
-    calculateDateRowsForCashflow(cashFlow) {
+    onSelectorSelected(selector) {
+        this.setState({ currentSelector: selector })
+    }
+
+
+    calculateDateRowsForFinancialData(financialData) {
         //collect all dates
-        let dates = Object.keys(cashFlow[0][1])
+        let dates = Object.keys(financialData[0][1])
         // transform it to {date, year, displayText}
         let transformedDates = dates.map(date => {
             return {
@@ -25,8 +47,6 @@ export default class Financials extends Component {
                 displayText: 'Mar ' + date.split('-')[0]
             }
         })
-
-        //sortByYear desc
         transformedDates.sort((d1, d2) => d2.year - d1.year)
 
         // transform to {date: {date, displayText}}
@@ -42,7 +62,7 @@ export default class Financials extends Component {
         return sortedDates
     }
 
-    renderCashflowDateRows(dateRows) {
+    renderDateRows(dateRows) {
         let views = dateRows.map(rowItem => {
             return (
                 <View key={Object.keys(rowItem)[0]}
@@ -58,61 +78,120 @@ export default class Financials extends Component {
         return views
     }
 
-    renderCashflowColumnData(cashflowColumn, dates) {
+    renderColumnData(columnData, dates) {
         return dates.map(date => {
             return (
                 <View key={date} style={{ alignItems: 'center', padding: 2, borderBottomColor: '#ddd', borderBottomWidth: 1 }}>
                     <Text>
-                        {cashflowColumn[1][date]}
+                        {columnData[1][date]}
                     </Text></View>
             )
         })
     }
 
-    renderCashflowData(cashflow, dates) {
+    renderFinancialData(financialData, dates) {
 
-        return cashflow.map(cashflowColumn => {
+        return financialData.map(column => {
             return (
                 <View style={{ borderRightWidth: 1, borderRightColor: '#ddd' }}
-                    key={cashflowColumn[0]}>
+                    key={column[0]}>
                     <View style={{ alignItems: 'center', padding: 2, borderBottomColor: '#ddd', borderBottomWidth: 1 }}>
-                        <Text>{cashflowColumn[0]}</Text>
+                        <Text>{column[0]}</Text>
                     </View>
-                    {this.renderCashflowColumnData(cashflowColumn, dates)}
+                    {this.renderColumnData(column, dates)}
                 </View>
             )
         })
     }
 
+    renderSelectors() {
+        return (
+            <View style={styles.selectorContainer}>
+                <View style={[styles.selectorItem, (this.state.currentSelector === selectors.QUARTERLY_RESULTS) ? styles.selectedSelector : {}]}>
+                    <Text
+                        onPress={() => this.onSelectorSelected(selectors.QUARTERLY_RESULTS)}
+                        style={styles.selectorText}>
+                        Quarterly Results
+                        </Text>
+                </View>
+                <View style={[styles.selectorItem, (this.state.currentSelector === selectors.ANNUAL_RESULTS) ? styles.selectedSelector : {}]}>
+                    <Text
+                        onPress={() => this.onSelectorSelected(selectors.ANNUAL_RESULTS)}
+                        style={styles.selectorText}>
+                        Annual Results
+                        </Text>
+                </View>
+
+                <View style={[styles.selectorItem, (this.state.currentSelector === selectors.BALANCE_SHEET) ? styles.selectedSelector : {}]}>
+                    <Text
+                        onPress={() => this.onSelectorSelected(selectors.BALANCE_SHEET)}
+                        style={styles.selectorText}>
+                        Balance Sheet
+                        </Text>
+                </View>
+
+                <View style={[styles.selectorItem, (this.state.currentSelector === selectors.CASH_FLOW) ? styles.selectedSelector : {}]}>
+                    <Text
+                        onPress={() => this.onSelectorSelected(selectors.CASH_FLOW)}
+                        style={styles.selectorText}>
+                        Cash Flow
+                        </Text>
+                </View>
+            </View>
+        )
+    }
+
+    renderFinancialsFor(financialData) {
+        let dateRows = this.calculateDateRowsForFinancialData(financialData)
+        let dates = dateRows.map(dateRow => Object.keys(dateRow)[0])
+
+        return (
+            <View>
+                <Text style={styles.selectorHeading}>{this.state.currentSelector} (Figures in Rs. Crores)</Text>
+                <View style={{ flexDirection: 'row', backgroundColor: 'white', marginHorizontal: 8 }}>
+                    <View style={{ borderRightWidth: 4, borderRightColor: '#ddd' }}>
+                        <View style={{ alignItems: 'center', padding: 2, borderBottomColor: '#ddd', borderBottomWidth: 1 }}>
+                            <Text>Dates</Text>
+                        </View>
+                        {this.renderDateRows(dateRows)}
+                    </View>
+                    <ScrollView horizontal>
+                        {this.renderFinancialData(financialData, dates)}
+                    </ScrollView>
+                </View>
+            </View>
+        )
+    }
+
+
+    renderLoadingInfo() {
+        return (
+            <Text style={{ fontSize: 24, alignItems: 'center', justifyContent: 'center' }}>
+                Loading Info
+            </Text>
+        )
+    }
+    
+    
     render() {
         let info = this.props.screenProps.companyResult
 
         if (!info.number_set) {
-            return (
-                <Text style={{ fontSize: 24, alignItems: 'center', justifyContent: 'center' }}>
-                    Loading Info
-            </Text>)
+            return this.renderLoadingInfo()
         }
-
-        let dateRows = this.calculateDateRowsForCashflow(info.number_set.cashflow)
-        let dates = dateRows.map(dateRow => {
-            return Object.keys(dateRow)[0]
-        })
-
         return (
             <View>
-                <Text>Cash Flow</Text>
-                <View style={{ flexDirection: 'row', backgroundColor: 'white', marginHorizontal: 8 }}>
-                    <View style={{ borderRightWidth: 1, borderRightColor: '#ddd' }}>
-                        <View style={{ alignItems: 'center', padding: 2, borderBottomColor: '#ddd', borderBottomWidth: 1 }}>
-                            <Text>Dates</Text>
-                        </View>
-                        {this.renderCashflowDateRows(dateRows)}
-                    </View>
-                    <ScrollView horizontal>
-                        {this.renderCashflowData(info.number_set.cashflow, dates)}
-                    </ScrollView>
-                </View>
+                {this.renderSelectors()}
+
+                {this.state.currentSelector === selectors.CASH_FLOW &&
+                    this.renderFinancialsFor(info.number_set.cashflow)}
+                {this.state.currentSelector === selectors.BALANCE_SHEET &&
+                    this.renderFinancialsFor(info.number_set.balancesheet)}
+                {this.state.currentSelector === selectors.ANNUAL_RESULTS &&
+                    this.renderFinancialsFor(info.number_set.annual)}
+                {this.state.currentSelector === selectors.QUARTERLY_RESULTS &&
+                    this.renderFinancialsFor(info.number_set.quarters)}
+
             </View>
         )
     }
