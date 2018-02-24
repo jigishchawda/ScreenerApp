@@ -66,7 +66,7 @@ export default class Financials extends Component {
         let views = dateRows.map(rowItem => {
             return (
                 <View key={Object.keys(rowItem)[0]}
-                    style={{ alignItems: 'center', padding: 2, borderBottomColor: '#ddd', borderBottomWidth: 1 }}
+                    style={styles.dataCell}
                 >
                     <Text >
                         {rowItem[Object.keys(rowItem)[0]].displayText}
@@ -81,7 +81,7 @@ export default class Financials extends Component {
     renderColumnData(columnData, dates) {
         return dates.map(date => {
             return (
-                <View key={date} style={{ alignItems: 'center', padding: 2, borderBottomColor: '#ddd', borderBottomWidth: 1 }}>
+                <View key={date} style={styles.dataCell}>
                     <Text>
                         {columnData[1][date]}
                     </Text></View>
@@ -93,9 +93,9 @@ export default class Financials extends Component {
 
         return financialData.map(column => {
             return (
-                <View style={{ borderRightWidth: 1, borderRightColor: '#ddd' }}
+                <View style={styles.dataColumnContainer}
                     key={column[0]}>
-                    <View style={{ alignItems: 'center', padding: 2, borderBottomColor: '#ddd', borderBottomWidth: 1 }}>
+                    <View style={styles.columnHeaderCell}>
                         <Text>{column[0]}</Text>
                     </View>
                     {this.renderColumnData(column, dates)}
@@ -148,9 +148,9 @@ export default class Financials extends Component {
         return (
             <View>
                 <Text style={styles.selectorHeading}>{this.state.currentSelector} (Figures in Rs. Crores)</Text>
-                <View style={{ flexDirection: 'row', backgroundColor: 'white', marginHorizontal: 8 }}>
-                    <View style={{ borderRightWidth: 4, borderRightColor: '#ddd' }}>
-                        <View style={{ alignItems: 'center', padding: 2, borderBottomColor: '#ddd', borderBottomWidth: 1 }}>
+                <View style={styles.dataContainer}>
+                    <View style={styles.datesColumnContainer}>
+                        <View style={styles.columnHeaderCell}>
                             <Text>Dates</Text>
                         </View>
                         {this.renderDateRows(dateRows)}
@@ -166,7 +166,7 @@ export default class Financials extends Component {
 
     renderLoadingInfo() {
         return (
-            <Text style={{ fontSize: 24, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={styles.loadingInfo}>
                 Loading Info
             </Text>
         )
