@@ -29,7 +29,6 @@ export default class GeneralInfo extends Component {
     render() {
         let info = this.props.screenProps.companyResult
         if (Object.keys(info).length === 0 && info.constructor === Object) {
-            console.log('empty info')
             return (
                 <Text style={{ fontSize: 24, alignItems: 'center', justifyContent: 'center' }}>
                     Loading Info
