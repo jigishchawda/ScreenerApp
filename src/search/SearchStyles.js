@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native'
+import {StyleSheet, Platform} from 'react-native'
 
 export default styles = {
     searchTextContainer: {
@@ -7,7 +7,7 @@ export default styles = {
     },
     searchTextInput: {
         flex: 85,
-        borderWidth: 1,
+        borderWidth: Platform.OS === 'ios' ? 1 : 0,
         borderColor: '#00000050',
         padding: 8
     },
