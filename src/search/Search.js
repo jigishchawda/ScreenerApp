@@ -12,6 +12,9 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import styles from './SearchStyles'
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+
+const ChevronIcon = <MaterialIcon name='checvron-right' size={20} color='forestgreen' />
 
 export default class Search extends Component {
     constructor(props) {
@@ -41,7 +44,10 @@ export default class Search extends Component {
                 <View key={index}
                     style={styles.queryResultItemContainer}>
                     <Text style={styles.queryResultItemText}>{item.name}</Text>
-                    <Text style={styles.queryResultItemText}> > </Text>
+                    <MaterialIcon style={styles.chevron} 
+                        name='chevron-right' 
+                        size={20} 
+                        color='forestgreen' />
                 </View>
             </TouchableWithoutFeedback>
         )

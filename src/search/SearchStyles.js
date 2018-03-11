@@ -17,15 +17,19 @@ export default styles = {
     queryResultItemContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 8
+        padding: 16
     },
     queryResultItemText: {
-        color: 'blue',
-        fontSize: 18
+        color: 'forestgreen',
+        fontSize: 20
     },
     separator: {
         height: 1,
         borderBottomWidth: 1,
-        borderColor: 'black'
+        borderColor: 'gainsboro',
+        marginHorizontal: 16
+    },
+    chevron: {
+        alignSelf: 'center'
     }
 }
